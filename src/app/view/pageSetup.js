@@ -39,7 +39,9 @@ let treeParams = document.getElementById("tree_params_button");
 let dropletgenParams = document.getElementById("dropletgen_params_button");
 
 let jsonButton = document.getElementById("json_button");
+let interchangeV1Button = document.getElementById("interchange_button");
 let svgButton = document.getElementById("svg_button");
+
 //let stlButton = document.getElementById("stl_button");
 
 let button2D = document.getElementById("button_2D");
@@ -326,22 +328,30 @@ function setupAppPage() {
         });
         saveAs(json, "device.json");
     }
-/*
-    stlButton.onclick = function() {
-        let json = Registry.currentDevice.toJSON();
-        let stls = renderer.getSTL(json);
-        let blobs = [];
-        let zipper = new JSZip();
-        for (let i = 0; i < stls.length; i++) {
-            let name = "" + i + "_" + json.name + "_" + json.layers[i].name + ".stl";
-            zipper.file(name, stls[i]);
-        }
-        let content = zipper.generate({
-            type: "blob"
+
+    interchangeV1Button.onclick = function() {
+        let json = new Blob([JSON.stringify(Registry.currentDevice.toInterchangeV1())], {
+            type: "application/json"
         });
-        saveAs(content, json.name + "_layers.zip");
+        saveAs(json, "device.json");
     }
-*/
+
+    /*
+        stlButton.onclick = function() {
+            let json = Registry.currentDevice.toJSON();
+            let stls = renderer.getSTL(json);
+            let blobs = [];
+            let zipper = new JSZip();
+            for (let i = 0; i < stls.length; i++) {
+                let name = "" + i + "_" + json.name + "_" + json.layers[i].name + ".stl";
+                zipper.file(name, stls[i]);
+            }
+            let content = zipper.generate({
+                type: "blob"
+            });
+            saveAs(content, json.name + "_layers.zip");
+        }
+    */
     svgButton.onclick = function() {
         let svgs = Registry.viewManager.layersToSVGStrings();
         //let svg = paper.project.exportSVG({asString: true});
